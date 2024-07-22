@@ -55,7 +55,7 @@ class Spotify extends import_react.Component {
       const options = {
         width: "100%",
         height: "100%",
-        uri: this.getProxiedUrl(url)
+        uri: url
       };
       const callback = (EmbedController) => {
         this.player = EmbedController;
@@ -94,14 +94,11 @@ class Spotify extends import_react.Component {
       this.initializePlayer(window[SDK_GLOBAL], url);
       return;
     } else if (this.player) {
-      this.callPlayer("loadUri", this.getProxiedUrl(this.props.url));
+      this.callPlayer("loadUri", this.props.url);
       return;
     }
     window.onSpotifyIframeApiReady = (IFrameAPI) => this.initializePlayer(IFrameAPI, url);
-    (0, import_utils.getSDK)(CORS_PROXY + encodeURIComponent(SDK_URL), SDK_GLOBAL, SDK_GLOBAL_READY);
-  }
-  getProxiedUrl(url) {
-    return CORS_PROXY + encodeURIComponent(url);
+    (0, import_utils.getSDK)(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY);
   }
   play() {
     this.callPlayer("resume");
