@@ -40,7 +40,7 @@ var import_utils = require("../utils");
 var import_patterns = require("../patterns");
 const SDK_URL = "https://open.spotify.com/embed/iframe-api/v1";
 const SDK_GLOBAL = "SpotifyIframeApi";
-const SDK_GLOBAL_READY = "SpotifyIframeApi";
+const SDK_GLOBAL_READY = "SpotifyIframeApiReady";
 class Spotify extends import_react.Component {
   constructor() {
     super(...arguments);
@@ -89,15 +89,17 @@ class Spotify extends import_react.Component {
     this.props.onMount && this.props.onMount(this);
   }
   load(url) {
-    const isValidSdk = window[SDK_GLOBAL] && !this.player && window[SDK_GLOBAL].createController && typeof window[SDK_GLOBAL].createController === "function";
-    if (isValidSdk) {
+    if (window[SDK_GLOBAL] && !this.player) {
       this.initializePlayer(window[SDK_GLOBAL], url);
       return;
     } else if (this.player) {
       this.callPlayer("loadUri", this.props.url);
       return;
     }
-    window.onSpotifyIframeApiReady = (IFrameAPI) => this.initializePlayer(IFrameAPI, url);
+    window.onSpotifyIframeApiReady = (IFrameAPI) => {
+      window[SDK_GLOBAL] = IFrameAPI;
+      return this.initializePlayer(IFrameAPI, url);
+    };
     (0, import_utils.getSDK)(SDK_URL, SDK_GLOBAL, SDK_GLOBAL_READY);
   }
   play() {

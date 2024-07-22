@@ -75,22 +75,18 @@ class App extends Component {
   }
 
   handlePlay = () => {
-    console.log('onPlay')
     this.setState({ playing: true })
   }
 
   handleEnablePIP = () => {
-    console.log('onEnablePIP')
     this.setState({ pip: true })
   }
 
   handleDisablePIP = () => {
-    console.log('onDisablePIP')
     this.setState({ pip: false })
   }
 
   handlePause = () => {
-    console.log('onPause')
     this.setState({ playing: false })
   }
 
@@ -108,7 +104,6 @@ class App extends Component {
   }
 
   handleProgress = state => {
-    console.log('onProgress', state)
     // We only want to update time slider if we are not currently seeking
     if (!this.state.seeking) {
       this.setState(state)
@@ -116,12 +111,10 @@ class App extends Component {
   }
 
   handleEnded = () => {
-    console.log('onEnded')
     this.setState({ playing: this.state.loop })
   }
 
   handleDuration = (duration) => {
-    console.log('onDuration', duration)
     this.setState({ duration })
   }
 
